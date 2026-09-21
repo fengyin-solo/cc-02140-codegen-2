@@ -41,6 +41,18 @@ const routes = [
         name: 'Categories',
         component: () => import('@/views/categories/CategoryList.vue'),
         meta: { title: '分类管理', icon: 'AppstoreOutlined' }
+      },
+      {
+        path: 'inventory',
+        name: 'Inventory',
+        component: () => import('@/views/inventory/CheckList.vue'),
+        meta: { title: '馆藏盘点', icon: 'AuditOutlined' }
+      },
+      {
+        path: 'inventory/:id',
+        name: 'InventoryDetail',
+        component: () => import('@/views/inventory/CheckDetail.vue'),
+        meta: { title: '盘点工作台' }
       }
     ]
   },

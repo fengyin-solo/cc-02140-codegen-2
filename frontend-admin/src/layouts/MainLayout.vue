@@ -39,6 +39,10 @@
           <template #icon><AppstoreOutlined /></template>
           <span>分类管理</span>
         </a-menu-item>
+        <a-menu-item key="inventory">
+          <template #icon><AuditOutlined /></template>
+          <span>馆藏盘点</span>
+        </a-menu-item>
       </a-menu>
     </a-layout-sider>
 
@@ -107,7 +111,8 @@ import {
   SwapOutlined,
   AppstoreOutlined,
   DownOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  AuditOutlined
 } from '@ant-design/icons-vue'
 
 const router = useRouter()
@@ -127,7 +132,8 @@ const currentTitle = computed(() => {
     books: '图书管理',
     readers: '读者管理',
     borrow: '借阅管理',
-    categories: '分类管理'
+    categories: '分类管理',
+    inventory: '馆藏盘点'
   }
   return titles[selectedKeys.value[0]] || ''
 })
@@ -136,7 +142,9 @@ watch(
   () => route.name,
   (name) => {
     if (name) {
-      selectedKeys.value = [name.toLowerCase()]
+      // 详情页（如 InventoryDetail）归属对应的一级菜单
+      const key = String(name).toLowerCase().replace(/detail$/, '')
+      selectedKeys.value = [key]
     }
   },
   { immediate: true }

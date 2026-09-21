@@ -90,7 +90,8 @@ docker pull --platform linux/arm64 nginx:1.25-alpine
         │   ├── book.js         # 图书状态
         │   ├── reader.js       # 读者状态
         │   ├── borrow.js       # 借阅状态
-        │   └── category.js     # 分类状态
+        │   ├── category.js     # 分类状态
+        │   └── inventoryCheck.js # 馆藏盘点状态
         ├── layouts/            # 布局组件
         │   └── MainLayout.vue  # 主布局
         ├── views/              # 页面组件
@@ -102,8 +103,12 @@ docker pull --platform linux/arm64 nginx:1.25-alpine
         │   │   └── ReaderList.vue    # 读者管理
         │   ├── borrow/
         │   │   └── BorrowList.vue    # 借阅管理
-        │   └── categories/
-        │       └── CategoryList.vue  # 分类管理
+        │   ├── categories/
+        │   │   └── CategoryList.vue  # 分类管理
+        │   └── inventory/
+        │       ├── CheckList.vue         # 盘点任务列表
+        │       ├── CheckDetail.vue       # 盘点工作台（差异比对/确认）
+        │       └── ImportResultModal.vue # 实盘结果导入
         ├── data/               # 模拟数据
         │   └── mockData.js     # Mock 数据
         └── styles/             # 全局样式
@@ -156,6 +161,17 @@ docker pull --platform linux/arm64 nginx:1.25-alpine
 ### 5. 分类管理 (Categories)
 - 分类卡片展示
 - 新增/编辑/删除分类
+
+### 6. 馆藏盘点 (Inventory)
+- 盘点任务管理：新建（全部馆藏/按分类）、删除、完成、回退
+- 创建任务时按当前系统库存生成快照，盘点全程不修改库存与借阅记录
+- 实盘结果导入：粘贴文本 / 上传文件 / 模板下载，分块落库，中断可恢复
+- 重复盘点自动合并（取最后值），无效行与范围外条目跳过并记日志
+- 按馆藏条目自动比对形成差异：相符 / 盘盈 / 盘亏 / 未盘
+- 差异确认与备注，支持一键确认、未盘按 0 处理
+- 任务完成校验（未盘、未确认差异拦截），回退后确认状态不丢失
+- 条目被删除后仍按快照比对并标记「已删除」
+- 差异报告 CSV 导出、操作日志留痕
 
 ---
 
